@@ -3,32 +3,44 @@ interface Props {
   accent: string;
 }
 
+const VOID_IMAGES: Record<string, string> = {
+  intro: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/e539bff8-08ab-4a46-8267-5ff1c135003a.jpg",
+  web: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/43f76658-3884-4e7a-9f96-7794e30b5498.jpg",
+  gallery1: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/69699211-fe03-4e03-bbbf-287319a8a031.jpg",
+  gallery2: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/452355db-cfe6-4ae1-8cf0-8bbe8e4ca5a6.jpg",
+  darkenergy: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/43f76658-3884-4e7a-9f96-7794e30b5498.jpg",
+  conclusion: "https://cdn.poehali.dev/projects/07553ccd-0c3c-48ab-a41b-46c842cfedc3/files/e539bff8-08ab-4a46-8267-5ff1c135003a.jpg",
+};
+
+const ImageVisual = ({ src, accent }: { src: string; accent: string }) => (
+  <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-xl">
+    <img
+      src={src}
+      alt="Войд"
+      className="w-full h-full object-cover rounded-xl"
+      style={{ filter: "saturate(1.3) brightness(0.9)" }}
+    />
+    <div
+      className="absolute inset-0 rounded-xl"
+      style={{ background: `radial-gradient(ellipse at center, transparent 40%, ${accent}22 100%)` }}
+    />
+    <div
+      className="absolute inset-0 rounded-xl border"
+      style={{ borderColor: `${accent}44`, boxShadow: `inset 0 0 30px ${accent}11` }}
+    />
+  </div>
+);
+
 const SlideVisual = ({ visual, accent }: Props) => {
+  if (VOID_IMAGES[visual]) {
+    return (
+      <div className="w-full h-48 flex items-center justify-center relative">
+        <ImageVisual src={VOID_IMAGES[visual]} accent={accent} />
+      </div>
+    );
+  }
+
   const visuals: Record<string, JSX.Element> = {
-    intro: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <div className="absolute w-48 h-48 rounded-full opacity-10" style={{ background: `radial-gradient(circle, ${accent}, transparent)` }} />
-        <div className="absolute w-64 h-64 rounded-full border opacity-20 animate-ping" style={{ borderColor: accent, animationDuration: "3s" }} />
-        <div className="absolute w-80 h-80 rounded-full border opacity-10 animate-ping" style={{ borderColor: accent, animationDuration: "4s", animationDelay: "1s" }} />
-        <div className="text-8xl animate-pulse">🌌</div>
-      </div>
-    ),
-    web: (
-      <div className="relative w-full h-full flex items-center justify-center">
-        <svg viewBox="0 0 200 200" className="w-48 h-48 opacity-60">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <line key={i} x1="100" y1="100" x2={100 + 80 * Math.cos((i * Math.PI) / 3)} y2={100 + 80 * Math.sin((i * Math.PI) / 3)} stroke={accent} strokeWidth="1" opacity="0.5" />
-          ))}
-          {[0, 1, 2].map((i) => (
-            <circle key={i} cx="100" cy="100" r={30 + i * 25} fill="none" stroke={accent} strokeWidth="0.5" opacity="0.3" />
-          ))}
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <circle key={i} cx={100 + 80 * Math.cos((i * Math.PI) / 3)} cy={100 + 80 * Math.sin((i * Math.PI) / 3)} r="4" fill={accent} opacity="0.8" />
-          ))}
-          <circle cx="100" cy="100" r="8" fill={accent} opacity="0.5" />
-        </svg>
-      </div>
-    ),
     telescopes: (
       <div className="relative w-full h-full flex items-center justify-center">
         <div className="text-7xl">🔭</div>
@@ -38,23 +50,20 @@ const SlideVisual = ({ visual, accent }: Props) => {
         </div>
       </div>
     ),
-    gallery1: (
-      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: `${40 + i * 20}px`,
-              height: `${40 + i * 20}px`,
-              background: `radial-gradient(circle, transparent 30%, ${accent}33 100%)`,
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 2) * 20}%`,
-              border: `1px solid ${accent}44`,
-            }}
-          />
-        ))}
-        <div className="text-6xl z-10">🎨</div>
+    methods: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="text-7xl">📡</div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          {[0,1,2].map(i => (
+            <div key={i} className="absolute rounded-full border opacity-20 animate-ping"
+              style={{ width: `${60 + i*30}px`, height: `${60 + i*30}px`, borderColor: accent, animationDuration: `${2+i}s`, animationDelay: `${i*0.4}s` }} />
+          ))}
+        </div>
+      </div>
+    ),
+    maps: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="text-7xl">🗺️</div>
       </div>
     ),
     history: (
@@ -77,14 +86,27 @@ const SlideVisual = ({ visual, accent }: Props) => {
         ))}
       </div>
     ),
-    conclusion: (
+    physics: (
       <div className="relative w-full h-full flex items-center justify-center">
-        <div className="text-8xl animate-bounce" style={{ animationDuration: "2s" }}>🚀</div>
+        <div className="text-7xl">⚛️</div>
+      </div>
+    ),
+    discoveries: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="text-7xl">⭐</div>
         <div className="absolute inset-0 flex items-center justify-center">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="absolute rounded-full border opacity-20 animate-ping" style={{ width: `${80 + i * 40}px`, height: `${80 + i * 40}px`, borderColor: accent, animationDuration: `${2 + i}s`, animationDelay: `${i * 0.5}s` }} />
-          ))}
+          <div className="w-24 h-24 rounded-full border opacity-20 animate-spin" style={{ borderColor: accent, animationDuration: "10s" }} />
         </div>
+      </div>
+    ),
+    theories: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="text-7xl">💡</div>
+      </div>
+    ),
+    importance: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        <div className="text-7xl">🔬</div>
       </div>
     ),
   };
@@ -92,7 +114,7 @@ const SlideVisual = ({ visual, accent }: Props) => {
   return (
     <div className="w-full h-48 flex items-center justify-center relative">
       {visuals[visual] ?? (
-        <div className="text-7xl opacity-60">{["🌌", "🔭", "📡", "⭐", "💫", "🌀"][Math.floor(Math.random() * 6)]}</div>
+        <div className="text-7xl opacity-60">🌌</div>
       )}
     </div>
   );
