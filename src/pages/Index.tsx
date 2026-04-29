@@ -125,6 +125,21 @@ const Index = () => {
         ))}
       </main>
 
+      {/* Author badge */}
+      {current === 0 && (
+        <div
+          className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 px-5 py-2.5 rounded-full border backdrop-blur-sm text-center whitespace-nowrap transition-all duration-500"
+          style={{
+            background: `${slide.accent}11`,
+            borderColor: `${slide.accent}33`,
+            boxShadow: `0 0 20px ${slide.accent}22`,
+          }}
+        >
+          <span className="text-white/40 text-xs">Выполнила ученица 9Б класса</span>
+          <span className="text-white/80 text-sm font-semibold ml-2" style={{ color: slide.accent }}>Никифорова Алина</span>
+        </div>
+      )}
+
       {/* Bottom nav */}
       <footer className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-4">
         {/* Dots */}
